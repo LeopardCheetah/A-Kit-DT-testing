@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Drivetrain extends SubsystemBase {
   /** Creates a new Drivetrain. */
 
-  private CANSparkMax m_leftPrimaryMotor = new CANSparkMax(0);
+  // private CANSparkMax m_leftPrimaryMotor = new CANSparkMax(0);
   public Drivetrain() {}
 
   @Override
