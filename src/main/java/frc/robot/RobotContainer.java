@@ -5,6 +5,8 @@
 package frc.robot;
 
 
+import edu.wpi.first.networktables.DoubleTopic;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -30,7 +32,12 @@ public class RobotContainer {
   private Drivetrain m_drivetrain = new Drivetrain();
   private Joystick m_joystick = new Joystick(JoystickConstants.kDriveJoystickPort);
 
-  private ArcadeDrive m_arcadeDrive = new ArcadeDrive(m_drivetrain, m_joystick);
+  // network tables
+  private NetworkTableInstance inst = NetworkTableInstance.getDefault(); // cant think of a better name
+  // private DoubleTopic m_driveSpeedTopic = new DoubleTopic(inst, "some test string"); -- idk it wants an int
+  private DoubleTopic m_driveSpeedTopic = inst.getDoubleTopic("Robot Forward Speed");
+
+  private ArcadeDrive m_arcadeDrive = new ArcadeDrive(m_drivetrain, m_joystick, m_driveSpeedTopic);
   
 
 
