@@ -15,8 +15,22 @@ package frc.robot;
 public final class Constants {
   // apparently I'm supposed to put all constants in here ok 
 
-  
-  public static class OperatorConstants {
-    public static final int kDriverControllerPort = 0;
+  public static class DrivetrainConstants {
+    public static final int kLeftPrimaryMotorID = 0;
+    public static final int kLeftSecondaryMotorID = 1;
+    public static final int kRightPrimaryMotorID = 2;
+    public static final int kRightSecondaryMotorID = 3;
+  }
+
+  public static class JoystickConstants {
+    public static final int kDriveJoystickPort = 0;
+
+    public static final int kDriveAxis = 0;
+    public static final int kTurnAxis = 1;
+  }
+
+  public static class ArcadeDriveConstants {
+    public static final double kSpeedConstant = 0.3;
+    public static final double kTurnConstant = 0.3;
   }
 }

@@ -4,11 +4,14 @@
 
 package frc.robot;
 
-import frc.robot.Constants.OperatorConstants;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Constants.JoystickConstants;
+import frc.robot.commands.ArcadeDrive;
+import frc.robot.subsystems.Drivetrain;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -16,10 +19,18 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
  * subsystems, commands, and trigger mappings) should be declared here.
  */
+
+
+
+
 public class RobotContainer {
   // why is this 2 space tab
 
   // The robot's subsystems and commands are defined here...
+  private Drivetrain m_drivetrain = new Drivetrain();
+  private Joystick m_joystick = new Joystick(JoystickConstants.kDriveJoystickPort);
+
+  private ArcadeDrive m_arcadeDrive = new ArcadeDrive(m_drivetrain, m_joystick);
   
 
 
@@ -38,7 +49,6 @@ public class RobotContainer {
    * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
    * joysticks}.
    */
-
 
   private void configureBindings() {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
@@ -63,6 +73,7 @@ public class RobotContainer {
   }
 
   public Command getTeleopCommand(){
+    m_drivetrain.setDefaultCommand(m_arcadeDrive);
     return null;
   }
 }
