@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DrivetrainConstants;
 
@@ -29,6 +30,8 @@ public class Drivetrain extends SubsystemBase {
   private SparkMaxConfig m_leftSecondaryMotorConfig = new SparkMaxConfig();
   private SparkMaxConfig m_rightPrimaryMotorConfig = new SparkMaxConfig();
   private SparkMaxConfig m_leftPrimaryMotorConfig = new SparkMaxConfig();
+
+  private DifferentialDrive m_drivetrain;
 
   // make motors follow each other
   public Drivetrain() {
@@ -62,6 +65,8 @@ public class Drivetrain extends SubsystemBase {
     m_rightSecondaryMotor.configure(m_rightSecondaryMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
 
+    m_drivetrain = new DifferentialDrive(m_leftPrimaryMotor, m_rightPrimaryMotor);
+
   }
 
 
@@ -73,10 +78,13 @@ public class Drivetrain extends SubsystemBase {
     m_rightPrimaryMotor.set(speed);
   }
 
-  public void setSpeed(double speed){
+  public void setSpeed(double speed, double rotation){
     // set robot speed
-    m_leftPrimaryMotor.set(speed);
-    m_rightPrimaryMotor.set(speed);
+    m_drivetrain.arcadeDrive(speed, rotation);
+  }
+
+  public DifferentialDrive getDrivetrain(){
+    return m_drivetrain;
   }
 
   @Override

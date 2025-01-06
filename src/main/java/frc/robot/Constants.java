@@ -30,7 +30,7 @@ public final class Constants {
   }
 
   public static class ArcadeDriveConstants {
-    public static final double kSpeedConstant = 0.3;
-    public static final double kTurnConstant = 0.3;
+    public static final double kSpeedConstant = 0.7;
+    public static final double kTurnConstant = 0.7;
   }
 }

@@ -15,7 +15,9 @@ import frc.robot.Constants.JoystickConstants;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.networktables.DoublePublisher;
 import edu.wpi.first.networktables.DoubleTopic;
+import edu.wpi.first.networktables.NTSendable;
 import edu.wpi.first.networktables.PubSubOption;
+
 
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
@@ -34,6 +36,8 @@ public class ArcadeDrive extends Command {
   private double turnConstant = ArcadeDriveConstants.kTurnConstant;
 
   private final DoublePublisher driveSpeedPublisher;
+  // private final NTSendable drivetrainSendable;
+
   // API - https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/networktables/DoublePublisher.html
 
   public ArcadeDrive(Drivetrain drivetrain, Joystick joystick, DoubleTopic driveSpeed) {
@@ -43,34 +47,39 @@ public class ArcadeDrive extends Command {
 
     driveSpeedPublisher = driveSpeed.publish(PubSubOption.keepDuplicates(true));
     // API - https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/networktables/PubSubOption.html
+
+    // this.drivetrainSendable = drivetrainSendable;
+    // see https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/networktables/NTSendable.html
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     // we vibe
+    SmartDashboard.putData("Differential Drive", 
+      m_drivetrain.getDrivetrain()
+    );
+
+    // drivetrainSendable.initSendable(m_drivetrain); -- this doesn't work :(
   }
 
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    forwardSpeed = m_joystick.getRawAxis(JoystickConstants.kDriveAxis);
-    turnSpeed = m_joystick.getRawAxis(JoystickConstants.kTurnAxis);
+    forwardSpeed = m_joystick.getRawAxis(JoystickConstants.kDriveAxis)*speedConstant;
+    turnSpeed = m_joystick.getRawAxis(JoystickConstants.kTurnAxis)*turnConstant;
 
-    final double leftSpeed = forwardSpeed*speedConstant + turnSpeed*turnConstant;
-    final double rightSpeed = forwardSpeed*speedConstant - turnSpeed*turnConstant;
-
-    m_drivetrain.setLeftSpeed(leftSpeed);
-    m_drivetrain.setRightSpeed(rightSpeed);
-
+    m_drivetrain.setSpeed(forwardSpeed, turnSpeed);
 
     // since smartDashboard runs NT under the hood we can technically use this to get data to NT then to Elastic
     // but lets try directly going to Network Tables instead!
     // SmartDashboard.putNumber("Drive Speed", forward_speed);
     // SmartDashboard.putNumber("Turn Speed", turn_speed);
     // SmartDashboard.putNumber("Left Side speed", forward_speed*speed_constant + turn_speed*turn_constant);
+
     driveSpeedPublisher.set(forwardSpeed);
+    
   }
 
 
@@ -78,7 +87,7 @@ public class ArcadeDrive extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_drivetrain.setSpeed(0); // stop drivetrain
+    m_drivetrain.setSpeed(0, 0); // stop drivetrain
     driveSpeedPublisher.close();
   }
 
