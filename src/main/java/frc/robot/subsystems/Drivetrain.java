@@ -51,9 +51,10 @@ public class Drivetrain extends SubsystemBase {
       .smartCurrentLimit(40);
 
     m_rightSecondaryMotorConfig
+      .inverted(true)
       .follow(DrivetrainConstants.kRightPrimaryMotorID)
       .smartCurrentLimit(40); // follow right primary, current limit 40A
-    // im pretty sure i dont need an invert here as its already following an inverted motor
+    // still need to invert
     
     m_leftPrimaryMotor.configure(m_leftPrimaryMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);  
     m_leftSecondaryMotor.configure(m_leftSecondaryMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);

@@ -25,8 +25,8 @@ public final class Constants {
   public static class JoystickConstants {
     public static final int kDriveJoystickPort = 0;
 
-    public static final int kDriveAxis = 0;
-    public static final int kTurnAxis = 1;
+    public static final int kDriveAxis = 1;
+    public static final int kTurnAxis = 0;
   }
 
   public static class ArcadeDriveConstants {
