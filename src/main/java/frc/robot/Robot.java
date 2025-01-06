@@ -17,6 +17,7 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   private Command m_teleopCommand;
 
+
   private final RobotContainer m_robotContainer;
 
   /**
@@ -83,11 +84,14 @@ public class Robot extends TimedRobot {
     if (m_teleopCommand != null){
       m_teleopCommand.schedule();
     }
+
   }
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+    
+  }
 
   @Override
   public void testInit() {

@@ -12,7 +12,9 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.ArcadeDriveConstants;
 import frc.robot.Constants.JoystickConstants;
 
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import edu.wpi.first.networktables.DoublePublisher;
 import edu.wpi.first.networktables.DoubleTopic;
 import edu.wpi.first.networktables.NTSendable;
@@ -35,10 +37,15 @@ public class ArcadeDrive extends Command {
   private double speedConstant = ArcadeDriveConstants.kSpeedConstant;
   private double turnConstant = ArcadeDriveConstants.kTurnConstant;
 
+  // API - https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/networktables/DoublePublisher.html
   private final DoublePublisher driveSpeedPublisher;
   // private final NTSendable drivetrainSendable;
 
-  // API - https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/networktables/DoublePublisher.html
+
+  private final Field2d m_field = new Field2d();
+
+
+  
 
   public ArcadeDrive(Drivetrain drivetrain, Joystick joystick, DoubleTopic driveSpeed) {
     m_drivetrain = drivetrain;
@@ -60,6 +67,8 @@ public class ArcadeDrive extends Command {
       m_drivetrain.getDrivetrain()
     );
 
+    SmartDashboard.putData("Field", m_field);
+
     // drivetrainSendable.initSendable(m_drivetrain); -- this doesn't work :(
   }
 
@@ -79,6 +88,10 @@ public class ArcadeDrive extends Command {
     // SmartDashboard.putNumber("Left Side speed", forward_speed*speed_constant + turn_speed*turn_constant);
 
     driveSpeedPublisher.set(forwardSpeed);
+
+    SmartDashboard.putNumber("Pose X", m_drivetrain.getLeftMotorDistance());
+    SmartDashboard.putNumber("Pose Y", m_drivetrain.getRightMotorDistance());
+    m_field.setRobotPose(m_drivetrain.getRobotPose());
     
   }
 

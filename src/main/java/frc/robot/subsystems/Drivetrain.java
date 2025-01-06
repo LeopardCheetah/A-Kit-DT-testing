@@ -4,9 +4,13 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DrivetrainConstants;
+
+import javax.crypto.spec.RC2ParameterSpec;
 
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.PersistMode;
@@ -83,9 +87,30 @@ public class Drivetrain extends SubsystemBase {
     m_drivetrain.arcadeDrive(speed, rotation);
   }
 
+  public double getLeftMotorDistance(){
+    // return how far the left motor has gone (in meters)
+
+    // from rotations -> meters
+    // assuming that there are 5 in wheels on this takn drive robot (diameter)
+    // that's 12.7cm = 0.127m per rotation
+    // so multiply # of rotations by 0.127 to get meters
+    return m_leftPrimaryMotor.getAbsoluteEncoder().getPosition()*0.127; 
+    // TODO -- figure out the difference here between absolute and relative encoder
+  }
+
+  public double getRightMotorDistance(){
+    return m_rightPrimaryMotor.getAbsoluteEncoder().getPosition()*0.127;
+  }
+
   public DifferentialDrive getDrivetrain(){
     return m_drivetrain;
   }
+
+  public Pose2d getRobotPose(){
+    return new Pose2d(getLeftMotorDistance(), getRightMotorDistance(), new Rotation2d(0)); 
+    // no gyro so can't tell which direction the robot faces
+  }
+
 
   @Override
   public void periodic() {
