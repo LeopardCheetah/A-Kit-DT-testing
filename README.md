@@ -8,3 +8,5 @@ Since I'm at home and don't have an actual robot, I think I'm gonna have to try 
 01/02/2025 - Happy new year to all!
 
 01/05/2025 - Added basic DT features. Simulated robot code (to some extent).
+
+01/13/2025 - Deprecated.
